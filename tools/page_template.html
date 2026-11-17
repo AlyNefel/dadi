@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Livrables CQ analytique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--ink:#14213d;--muted:#5b6b7f;--line:#dfe6ee;--soft:#eef3f9;--accent:#1f4e8c;--accent-ink:#fff;--accent-soft:#e3ecf8;
+--a-bg:#dcf3e6;--a-ink:#17623a;--b-bg:#fff2cc;--b-ink:#7a5600;--c-bg:#eceff3;--c-ink:#4b5563;--r-bg:#fbe0e0;--r-ink:#8a1f1f;--shadow:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.06)}
+@media (prefers-color-scheme:dark){:root{--bg:#0d141d;--card:#151f2c;--ink:#e6edf5;--muted:#9aabbf;--line:#263546;--soft:#1a2634;--accent:#8db6ef;--accent-ink:#0d141d;--accent-soft:#1d2d44;
+--a-bg:#163d2a;--a-ink:#7fe0aa;--b-bg:#3d3214;--b-ink:#f3cd6b;--c-bg:#252f3b;--c-ink:#b8c4d2;--r-bg:#462024;--r-ink:#ffa7a7;--shadow:none}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--accent)}
+.top{background:var(--card);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding:28px 16px 0}
+.kicker{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+h1{font-size:28px;line-height:1.2;margin:6px 0 8px;letter-spacing:-.01em}
+.lead{color:var(--muted);max-width:78ch;margin:0}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);padding:9px 14px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--line)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 20px}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:0;background:none;color:var(--muted);font:600 14px Inter,system-ui,sans-serif;padding:12px 14px;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected=true]{color:var(--accent);border-bottom-color:var(--accent)}
+.tab .count{display:inline-block;margin-left:6px;background:var(--soft);color:var(--muted);border-radius:999px;padding:0 7px;font-size:12px;font-weight:600}
+main{max-width:1240px;margin:0 auto;padding:24px 16px 72px}
+.panel[hidden]{display:none}
+h2{font-size:20px;margin:28px 0 12px;letter-spacing:-.01em}
+h2:first-child{margin-top:4px}
+h3{font-size:16px;margin:22px 0 8px}
+.grid{display:grid;gap:12px}
+.stats{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:30px;line-height:1.1;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:13px}
+.two{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.badge{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.bA{background:var(--a-bg);color:var(--a-ink)}.bB{background:var(--b-bg);color:var(--b-ink)}.bC{background:var(--c-bg);color:var(--c-ink)}.bR{background:var(--r-bg);color:var(--r-ink)}
+.chip{display:inline-block;padding:1px 8px;border-radius:6px;font-size:12px;background:var(--accent-soft);color:var(--accent);font-weight:600;white-space:nowrap}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 12px}
+.toolbar input,.toolbar select{font:14px Inter,system-ui,sans-serif;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-height:38px}
+.toolbar input{flex:1 1 240px;min-width:0}
+.toolbar .n{color:var(--muted);font-size:13px;margin-left:auto}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--card);box-shadow:var(--shadow);max-height:72vh}
+table{border-collapse:separate;border-spacing:0;width:100%}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:13.5px}
+thead th{position:sticky;top:0;background:var(--soft);color:var(--muted);font-weight:600;font-size:12.5px;z-index:1;white-space:nowrap}
+thead th.sort{cursor:pointer;user-select:none}
+thead th.sort:after{content:" ↕";opacity:.4}
+thead th.asc:after{content:" ↑";opacity:1}thead th.desc:after{content:" ↓";opacity:1}
+tbody tr:hover td{background:var(--soft)}
+tbody tr:last-child td{border-bottom:0}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+td.wide{min-width:280px}td.mid{min-width:180px}
+.doc{max-width:900px}
+.doc p{margin:8px 0}
+.doc ul{padding-left:20px;margin:8px 0}.doc li{margin:4px 0}
+.doc .tw{max-height:none;margin:12px 0 18px}
+.acc{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:10px 0;box-shadow:var(--shadow)}
+.acc summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:after{content:"+";color:var(--muted);font-weight:400}
+.acc[open] summary:after{content:"–"}
+.acc .body{padding:0 16px 14px;color:var(--ink)}
+.acc .body p{margin:6px 0}
+.lbl{color:var(--muted);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px}
+.toc{position:sticky;top:16px;align-self:start;font-size:13.5px;max-height:calc(100vh - 32px);overflow:auto}
+.toc a{display:block;color:var(--muted);text-decoration:none;padding:4px 8px;border-left:2px solid var(--line)}
+.toc a.l1{color:var(--ink);font-weight:600;margin-top:8px}
+.toc a:hover{color:var(--accent);border-left-color:var(--accent)}
+@media (max-width:860px){.layout{grid-template-columns:1fr}.toc{position:static;max-height:none}}
+.q{display:grid;gap:10px}
+.qhead{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.qtext{font-weight:600;font-size:15px}
+.qcols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:700px){.qcols{grid-template-columns:1fr}}
+.score{display:flex;gap:4px}
+.score button{width:34px;height:32px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:600 13px Inter,system-ui,sans-serif;cursor:pointer}
+.score button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.sticky{position:sticky;top:0;z-index:2;background:var(--bg);padding:10px 0}
+.meter{height:8px;background:var(--soft);border-radius:999px;overflow:hidden;margin-top:6px}
+.meter i{display:block;height:100%;background:var(--accent);width:0;transition:width .2s}
+.files{display:grid;gap:10px}
+.file{display:flex;justify-content:space-between;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+.file a.t{font-weight:600;text-decoration:none}
+.file small{color:var(--muted);display:block}
+.bar{display:flex;align-items:center;gap:8px}
+.bar i{display:block;height:8px;background:var(--accent);border-radius:999px;min-width:2px}
+.muted{color:var(--muted)}
+.note{color:var(--muted);font-size:13px}
+.hl{background:var(--accent-soft);border-radius:12px;padding:14px 16px;border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <div class="kicker">THE SKY · Mission d'intercontrat · 17/11/2026</div>
+  <h1>Livrables Contrôle Qualité analytique</h1>
+  <p class="lead">Prospection de laboratoires sur 7 zones (Île-de-France, Lyon, Grenoble, Dreux, Mantes-la-Jolie, Mantes-la-Ville, Chartres) et supports techniques réutilisables.</p>
+  <div class="actions">
+    <a class="btn" href="livrables/Livrables_CQ_THE_SKY.zip" download>⬇ Tous les livrables (.zip)</a>
+    <a class="btn ghost" href="#fichiers" data-go="fichiers">Fichiers un par un</a>
+  </div>
+  <nav class="tabs" role="tablist" id="tabs"></nav>
+</div></header>
+
+<main id="main"></main>
+
+<script>
+const DATA = /*__DATA__*/null;
+const S = DATA.sheets;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+const norm = s => String(s ?? "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const col = (sheet, name) => S[sheet].h.indexOf(name);
+const ZONES = S["Synthèse zones"].r.filter(r => r[0] !== "TOTAL").map(r => r[0]);
+const TOTAL = S["Synthèse zones"].r.find(r => r[0] === "TOTAL");
+const badge = (v, map) => `<span class="badge ${map[v] || "bC"}">${esc(v)}</span>`;
+const PRIO = {A:"bA",B:"bB",C:"bC"}, FIAB = {A:"bA",B:"bB",C:"bR"};
+
+const TABS = [
+  ["apercu","Vue d'ensemble"],["synthese","Synthèse"],["entreprises","Entreprises",S.Entreprises.r.length],
+  ["contacts","Contacts",S.Contacts.r.length],["offres","Offres",S.Offres.r.length],["cabinets","Offres cabinets",S["Offres cabinets"].r.length],
+  ["referentiel","Référentiel"],["grille","Grille d'entretien"],["support","OOS/OOT & validation"],["methode","Méthode"],["fichiers","Fichiers"]
+];
+const tabsEl = document.getElementById("tabs"), main = document.getElementById("main");
+TABS.forEach(([id, label, n]) => {
+  tabsEl.insertAdjacentHTML("beforeend", `<button class="tab" role="tab" id="t-${id}" aria-controls="p-${id}" data-tab="${id}">${label}${n ? `<span class="count">${n}</span>` : ""}</button>`);
+  main.insertAdjacentHTML("beforeend", `<section class="panel" role="tabpanel" id="p-${id}" aria-labelledby="t-${id}" hidden></section>`);
+});
+const rendered = {};
+function show(id) {
+  if (!TABS.some(t => t[0] === id)) id = "apercu";
+  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === id));
+  document.querySelectorAll(".panel").forEach(p => p.hidden = p.id !== "p-" + id);
+  if (!rendered[id]) { RENDER[id](document.getElementById("p-" + id)); rendered[id] = true; }
+  const tb = document.getElementById("t-" + id); tabsEl.scrollTo({left: tb.offsetLeft - tabsEl.clientWidth / 2 + tb.clientWidth / 2, behavior: "smooth"});
+  try { history.replaceState(null, "", "#" + id); } catch (e) {}
+}
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-tab],[data-go]");
+  if (t) { e.preventDefault(); show(t.dataset.tab || t.dataset.go); window.scrollTo({top: 0}); }
+});
+
+/* ---------- tableau interactif générique ---------- */
+function dataTable(el, sheet, cfg) {
+  const {h, r} = S[sheet];
+  const idx = cfg.cols.map(c => h.indexOf(c));
+  const filters = (cfg.filters || []).map(f => ({name: f, i: h.indexOf(f), values: [...new Set(r.map(x => x[h.indexOf(f)]))].filter(Boolean)}));
+  filters.forEach(f => { if (f.name === "Zone") f.values = ZONES.filter(z => f.values.includes(z)); else f.values.sort(); });
+  el.insertAdjacentHTML("beforeend", `<div class="toolbar"><input type="search" placeholder="Rechercher (nom, entreprise, ville, intitulé…)" aria-label="Rechercher">${filters.map((f, k) => `<select data-f="${k}" aria-label="${esc(f.name)}"><option value="">${esc(f.name)} : tous</option>${f.values.map(v => `<option>${esc(v)}</option>`).join("")}</select>`).join("")}<span class="n"></span></div><div class="tw"><table><thead><tr>${cfg.cols.map((c, k) => `<th class="sort" data-k="${k}">${esc(cfg.labels?.[c] || c)}</th>`).join("")}</tr></thead><tbody></tbody></table></div>`);
+  const tb = el.querySelector("tbody"), inp = el.querySelector("input"), cnt = el.querySelector(".n");
+  let sortK = null, dir = 1;
+  const fmt = (c, v, row) => (cfg.fmt?.[c] ? cfg.fmt[c](v, row) : esc(v));
+  function draw() {
+    const q = norm(inp.value).split(/\s+/).filter(Boolean);
+    const fv = [...el.querySelectorAll("select")].map(s => s.value);
+    let rows = r.filter(row => filters.every((f, k) => !fv[k] || row[f.i] === fv[k]) && q.every(w => norm(row.join(" ")).includes(w)));
+    if (sortK !== null) {
+      const i = idx[sortK];
+      rows = rows.slice().sort((a, b) => (typeof a[i] === "number" && typeof b[i] === "number" ? a[i] - b[i] : String(a[i]).localeCompare(String(b[i]), "fr")) * dir);
+    }
+    tb.innerHTML = rows.map(row => `<tr>${cfg.cols.map((c, k) => `<td class="${cfg.cls?.[c] || ""}">${fmt(c, row[idx[k]], row)}</td>`).join("")}</tr>`).join("") || `<tr><td colspan="${cfg.cols.length}" class="muted">Aucun résultat.</td></tr>`;
+    cnt.textContent = `${rows.length} / ${r.length}`;
+  }
+  inp.addEventListener("input", draw);
+  el.querySelectorAll("select").forEach(s => s.addEventListener("change", draw));
+  el.querySelectorAll("th.sort").forEach(th => th.addEventListener("click", () => {
+    const k = +th.dataset.k; dir = sortK === k ? -dir : 1; sortK = k;
+    el.querySelectorAll("th.sort").forEach(x => x.classList.remove("asc", "desc")); th.classList.add(dir > 0 ? "asc" : "desc"); draw();
+  }));
+  draw();
+}
+const link = (label) => v => v && String(v).startsWith("http") ? `<a href="${esc(v)}" target="_blank" rel="noopener">${label} ↗</a>` : "";
+
+/* ---------- blocs Word ---------- */
+let tocN = 0;
+function blocks(list, toc) {
+  return list.map(b => {
+    if (b.t === "h1" || b.t === "h2") { const id = "s" + (++tocN); if (toc) toc.push([b.t, b.v, id]); return b.t === "h1" ? `<h2 id="${id}">${esc(b.v)}</h2>` : `<h3 id="${id}">${esc(b.v)}</h3>`; }
+    if (b.t === "b") return `<h3>${esc(b.v)}</h3>`;
+    if (b.t === "p") return `<p>${esc(b.v)}</p>`;
+    if (b.t === "ul") return `<ul>${b.v.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+    if (b.t === "table") return `<div class="tw"><table><thead><tr>${b.h.map(x => `<th>${esc(x)}</th>`).join("")}</tr></thead><tbody>${b.r.map(r => `<tr>${r.map(x => `<td class="${String(x).length > 60 ? "wide" : ""}">${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+    return "";
+  }).join("");
+}
+function docWithToc(el, list, title) {
+  const toc = []; const html = blocks(list, toc);
+  el.innerHTML = `<div class="layout"><nav class="toc" aria-label="Sommaire"><div class="lbl" style="margin-bottom:6px">${esc(title)}</div>${toc.map(([t, v, id]) => `<a class="${t === "h1" ? "l1" : ""}" href="#${id}">${esc(v)}</a>`).join("")}</nav><div class="doc">${html}</div></div>`;
+  el.querySelectorAll(".toc a").forEach(a => a.addEventListener("click", e => { e.preventDefault(); document.getElementById(a.getAttribute("href").slice(1)).scrollIntoView({behavior: "smooth"}); }));
+}
+
+const FILES = [
+  ["1_Base_prospection_CQ_7_zones.xlsx", "1 · Base de prospection (Excel)", "Entreprises, contacts, offres, offres de cabinets, pistes, synthèse par zone", "entreprises"],
+  ["2_Synthese_opportunites_CQ.docx", "2 · Synthèse des opportunités (Word)", "Comptes prioritaires, recrutements, actualités, besoins, concurrence", "synthese"],
+  ["3_Referentiel_competences_CQ.docx", "3 · Référentiel des compétences (Word)", "Junior, confirmé, senior ; techniques HPLC, GC, dissolution, spectrophotométrie…", "referentiel"],
+  ["4_Grille_evaluation_technique_CQ.docx", "4 · Grille d'évaluation technique (Word)", "28 questions avec réponses attendues et signaux d'alerte", "grille", ["4b_Grille_evaluation_technique_CQ.xlsx", "version Excel avec calcul du score"]],
+  ["5_Support_OOS_OOT_validation.docx", "5 · Support OOS/OOT et validation analytique (Word)", "Déroulé d'investigation, check-list phase I, ICH Q2(R2)/Q14", "support"],
+];
+
+const RENDER = {
+  apercu(el) {
+    const ent = S.Entreprises, eI = n => ent.h.indexOf(n);
+    const max = Math.max(...S["Synthèse zones"].r.filter(r => r[0] !== "TOTAL").map(r => r[2]));
+    const brief = (DATA.synthese.find(b => b.t === "ul") || {v: []}).v;
+    const prioA = ent.r.filter(r => r[eI("Priorité")] === "A");
+    el.innerHTML = `
+      <div class="grid stats">
+        <div class="card stat"><b>${TOTAL[2]}</b><span>entreprises et sites, dont ${TOTAL[3]} en priorité A</span></div>
+        <div class="card stat"><b>${TOTAL[4]}</b><span>contacts LinkedIn nominatifs</span></div>
+        <div class="card stat"><b>${TOTAL[5]}</b><span>offres publiées par les employeurs</span></div>
+        <div class="card stat"><b>${TOTAL[6]}</b><span>offres de cabinets sur les mêmes zones</span></div>
+      </div>
+      <h2>En bref</h2><div class="hl"><ul style="margin:0;padding-left:20px">${brief.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
+      <h2>Répartition par zone</h2>
+      <div class="tw" style="max-height:none"><table><thead><tr><th>Zone</th><th>Périmètre</th><th>Entreprises</th><th>Prio. A</th><th>Contacts</th><th>Offres</th><th>Offres cabinets</th></tr></thead><tbody>
+      ${S["Synthèse zones"].r.map(r => `<tr${r[0] === "TOTAL" ? ' style="font-weight:600"' : ""}><td>${esc(r[0])}</td><td class="mid muted">${esc(r[1])}</td><td><div class="bar">${r[0] === "TOTAL" ? "" : `<i style="width:${Math.round(80 * r[2] / max)}px"></i>`}<span>${r[2]}</span></div></td><td class="num">${r[3]}</td><td class="num">${r[4]}</td><td class="num">${r[5]}</td><td class="num">${r[6]}</td></tr>`).join("")}
+      </tbody></table></div>
+      <h2>Comptes prioritaires (A)</h2>
+      <div class="grid two">${prioA.map(r => `<div class="card"><div class="qhead"><span class="chip">${esc(r[eI("Zone")])}</span><span class="badge bA">Priorité A</span></div><h3 style="margin:8px 0 2px">${esc(r[eI("Entreprise")])}</h3><div class="muted" style="font-size:13px">${esc(r[eI("Site(s)")])} · ${r[eI("Nb contacts")]} contact(s) · ${r[eI("Nb offres")]} offre(s)</div><p style="margin:8px 0 0;font-size:14px">${esc(r[eI("Signal de besoin")])}</p></div>`).join("")}</div>`;
+  },
+  synthese(el) { docWithToc(el, DATA.synthese, "Synthèse des opportunités"); },
+  entreprises(el) {
+    dataTable(el, "Entreprises", {
+      cols: ["Zone", "Entreprise", "Priorité", "Type", "Site(s)", "Activité", "Nb contacts", "Nb offres", "Signal de besoin", "Recherche LinkedIn"],
+      labels: {"Nb contacts": "Contacts", "Nb offres": "Offres", "Recherche LinkedIn": "LinkedIn"},
+      filters: ["Zone", "Priorité", "Type"],
+      cls: {"Activité": "mid", "Signal de besoin": "wide", "Entreprise": "mid", "Nb contacts": "num", "Nb offres": "num"},
+      fmt: {"Priorité": v => badge(v, PRIO), "Zone": v => `<span class="chip">${esc(v)}</span>`, "Entreprise": v => `<b>${esc(v)}</b>`, "Recherche LinkedIn": link("Rechercher")}
+    });
+  },
+  contacts(el) {
+    el.insertAdjacentHTML("beforeend", `<p class="note" style="margin-top:0">Fiabilité A : fonction lue dans le titre du profil public · B : déduite d'une publication ou site non confirmé · C : à vérifier avant tout envoi.</p>`);
+    dataTable(el, "Contacts", {
+      cols: ["Nom", "Fonction", "Entreprise", "Localisation", "Zone", "Rôle", "Fiabilité", "Lien LinkedIn", "Source / remarque"],
+      labels: {"Lien LinkedIn": "LinkedIn", "Source / remarque": "Source"},
+      filters: ["Zone", "Fiabilité", "Rôle"],
+      cls: {"Fonction": "mid", "Source / remarque": "mid", "Nom": "mid"},
+      fmt: {"Fiabilité": v => badge(v, FIAB), "Zone": v => `<span class="chip">${esc(v)}</span>`, "Nom": v => `<b>${esc(v)}</b>`, "Lien LinkedIn": link("Profil")}
+    });
+  },
+  offres(el) {
+    dataTable(el, "Offres", {
+      cols: ["Zone", "Employeur", "Intitulé", "Ville", "Contrat", S.Offres.h[6], "Lien"],
+      labels: {[S.Offres.h[6]]: "Publiée"}, filters: ["Zone", "Employeur", "Contrat"],
+      cls: {"Intitulé": "wide", "Employeur": "mid"},
+      fmt: {"Zone": v => `<span class="chip">${esc(v)}</span>`, "Intitulé": v => `<b>${esc(v)}</b>`, "Lien": link("Voir l'offre")}
+    });
+  },
+  cabinets(el) {
+    el.insertAdjacentHTML("beforeend", `<p class="note" style="margin-top:0">Offres de cabinets et d'ESN : elles signalent un besoin chez un client de la zone et une concurrence directe.</p>`);
+    const h = S["Offres cabinets"].h;
+    dataTable(el, "Offres cabinets", {
+      cols: ["Zone", "Cabinet / ESN", "Intitulé", "Ville", h[5], "Lecture", "Lien"],
+      labels: {[h[5]]: "Publiée"}, filters: ["Zone", "Cabinet / ESN"],
+      cls: {"Intitulé": "wide", "Lecture": "mid"},
+      fmt: {"Zone": v => `<span class="chip">${esc(v)}</span>`, "Intitulé": v => `<b>${esc(v)}</b>`, "Lien": link("Voir l'offre")}
+    });
+  },
+  referentiel(el) {
+    const tables = DATA.referentiel.filter(b => b.t === "table");
+    const [lev, comp, tech] = tables;
+    el.innerHTML = `<h2>Niveaux d'expérience</h2><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">${lev.r.map((r, i) => `<div class="card"><span class="badge ${["bA", "bB", "bR"][i] || "bC"}">${esc(r[0])}</span> <span class="muted" style="font-size:13px">${esc(r[1])}</span><p style="margin:8px 0 0">${esc(r[2])}</p></div>`).join("")}</div>
+      <h2>Compétences par domaine</h2><div class="toolbar"><select id="lvl" aria-label="Niveau"><option value="">Tous les niveaux</option>${comp.h.slice(1).map((x, i) => `<option value="${i + 1}">${esc(x)}</option>`).join("")}</select></div><div id="comp"></div>
+      <h2>Techniques et activités de laboratoire</h2>${blocks([tech])}`;
+    const drawC = () => {
+      const v = el.querySelector("#lvl").value;
+      el.querySelector("#comp").innerHTML = comp.r.map(r => `<details class="acc" open><summary>${esc(r[0])}</summary><div class="body"><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">${comp.h.slice(1).map((lv, i) => (!v || +v === i + 1) ? `<div><div class="lbl">${esc(lv)}</div><p>${esc(r[i + 1])}</p></div>` : "").join("")}</div></div></details>`).join("");
+    };
+    el.querySelector("#lvl").addEventListener("change", drawC); drawC();
+  },
+  grille(el) {
+    const tbls = DATA.grille.filter(b => b.t === "table");
+    const bar = tbls[0], g = tbls.find(t => t.h.includes("Question"));
+    const H = n => g.h.indexOf(n);
+    const doms = [...new Set(g.r.map(r => r[H("Domaine")]))], lv = [...new Set(g.r.map(r => r[H("Niveau")]))];
+    const notes = {};
+    el.innerHTML = `<p class="muted" style="margin-top:0">Notez chaque réponse de 0 à 4 : le score pondéré se calcule en direct (rien n'est enregistré). Barème : ${bar.r.map(r => `<b>${esc(r[0])}</b> ${esc(r[1])}`).join(" · ")}.</p>
+      <div class="sticky"><div class="toolbar" style="margin:0"><select id="gd" aria-label="Domaine"><option value="">Tous les domaines</option>${doms.map(d => `<option>${esc(d)}</option>`).join("")}</select><select id="gl" aria-label="Niveau"><option value="">Tous les niveaux</option>${lv.map(d => `<option>${esc(d)}</option>`).join("")}</select><button class="btn ghost" id="greset" type="button">Réinitialiser les notes</button><span class="n" id="gscore"></span></div><div class="meter"><i id="gm"></i></div></div>
+      <div id="gq" class="grid"></div>`;
+    const score = () => {
+      let s = 0, m = 0, n = 0;
+      g.r.forEach((r, i) => { if (notes[i] !== undefined) { const c = +r[H("Coef.")] || 1; s += notes[i] * c; m += 4 * c; n++; } });
+      const p = m ? Math.round(100 * s / m) : 0;
+      const lvl = !n ? "" : p < 50 ? "non retenu" : p < 70 ? "junior" : p < 85 ? "confirmé" : "senior";
+      el.querySelector("#gscore").textContent = n ? `${n} question(s) notée(s) · ${s} / ${m} · ${p} % → ${lvl}` : "Aucune note";
+      el.querySelector("#gm").style.width = p + "%";
+    };
+    const draw = () => {
+      const d = el.querySelector("#gd").value, l = el.querySelector("#gl").value;
+      el.querySelector("#gq").innerHTML = g.r.map((r, i) => (d && r[H("Domaine")] !== d) || (l && r[H("Niveau")] !== l) ? "" : `
+        <div class="card q"><div class="qhead"><span class="chip">Q${esc(r[0])}</span><span class="chip">${esc(r[H("Domaine")])}</span>${badge(r[H("Niveau")], {Junior: "bA", "Confirmé": "bB", Senior: "bR"})}<span class="muted" style="font-size:12px">coef. ${esc(r[H("Coef.")])}</span>
+        <div class="score" style="margin-left:auto" role="group" aria-label="Note">${[0, 1, 2, 3, 4].map(v => `<button type="button" data-q="${i}" data-v="${v}" aria-pressed="${notes[i] === v}">${v}</button>`).join("")}</div></div>
+        <div class="qtext">${esc(r[H("Question")])}</div>
+        <div class="qcols"><div><div class="lbl">Éléments attendus</div><p style="margin:4px 0 0">${esc(r[H("Éléments de réponse attendus")])}</p></div><div><div class="lbl">Signaux d'alerte</div><p style="margin:4px 0 0">${esc(r[H("Signaux d'alerte")])}</p></div></div></div>`).join("");
+    };
+    el.addEventListener("click", e => {
+      const b = e.target.closest("button[data-q]"); if (!b) return;
+      const i = +b.dataset.q, v = +b.dataset.v; notes[i] = notes[i] === v ? undefined : v;
+      b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", +x.dataset.v === notes[i])); score();
+    });
+    el.querySelector("#gd").addEventListener("change", draw); el.querySelector("#gl").addEventListener("change", draw);
+    el.querySelector("#greset").addEventListener("click", () => { Object.keys(notes).forEach(k => delete notes[k]); draw(); score(); });
+    draw(); score();
+  },
+  support(el) { docWithToc(el, DATA.support, "OOS/OOT & validation"); },
+  methode(el) {
+    const L = S["Lisez-moi"];
+    el.innerHTML = `<h2>Méthode et définitions</h2><div class="tw" style="max-height:none"><table><tbody>${[L.h, ...L.r].filter(r => r[0] && r[1]).map(r => `<tr><td style="font-weight:600;white-space:nowrap">${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</tbody></table></div><h2>Pistes sans URL de profil (non comptées)</h2><div id="pistes"></div>`;
+    dataTable(el.querySelector("#pistes"), "Pistes", {cols: S.Pistes.h, cls: {"Source": "wide"}});
+  },
+  fichiers(el) {
+    el.innerHTML = `<h2>Fichiers</h2><div class="files">${FILES.map(f => `<div class="file"><div><a class="t" href="livrables/${f[0]}" download>${esc(f[1])}</a><small>${esc(f[2])}${f[4] ? ` · <a href="livrables/${f[4][0]}" download>${esc(f[4][1])}</a>` : ""}</small></div><a class="btn ghost" href="#${f[3]}" data-go="${f[3]}">Voir dans la page</a></div>`).join("")}</div>
+      <p class="note" style="margin-top:16px">Données professionnelles publiques, prospection B2B : indiquer la source et le droit d'opposition au premier contact.</p>`;
+  }
+};
+show((location.hash || "#apercu").slice(1));
+</script>
+</body>
+</html>
